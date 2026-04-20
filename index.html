@@ -460,25 +460,6 @@ iron_anvil: # This spell plays the effect of the anvil
                   translation: "0,1.75,0" # Down we go
                   scale: "2.25,2.25,2.25"`,
         notes: "Summon an anvil out of thin air which grows, spins, then slams down dealing damage to the ground"
-      },
-      {
-        name: "Void Dash",
-        image: "assets/void-dash.svg",
-        yaml: `void_dash:
-  spell-class: ".instant.LeapSpell"
-  name: "Void Dash"
-  jump-velocity: 2.5
-  effects:
-    particles:
-      position: caster
-      effect: dragon_breath
-      amount: 30
-      radius: 0.8
-    sound:
-      name: entity.enderman.teleport
-      volume: 1
-      pitch: 0.8`,
-        notes: "High-speed movement effect with void particles.\nPair with cooldowns for mobility-based PvP loadouts."
       }
     ];
 
