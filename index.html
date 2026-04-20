@@ -225,27 +225,99 @@
     </main>
   </div>
 
-  <a class="discord" href="https://discord.magicspells.dev" target="_blank" rel="noopener noreferrer">join the discord</a>
+  <a class="discord" href="https://discord.magicspells.dev" target="_blank" rel="noopener noreferrer">Discord Invite</a>
 
   <script>
     const configurations = [
       {
         name: "Text Display Wind",
         image: "assets/windy.gif",
-        yaml: `text_display_wind:
-  spell-class: ".instant.DummySpell"
-  name: "Text Display Wind"
-  effects:
-    particles:
-      position: caster
-      effect: flame
-      amount: 40
-      radius: 1.7
-    sound:
-      name: entity.firework_rocket.blast
-      volume: 1
-      pitch: 1.1`,
-        notes: "A quick radial burst for mage-style attacks.\nUse this as a visual trigger for combo systems or wand impacts."
+        yaml: `Windy:
+    spell-class: ".instant.ParticleProjectileSpell"
+    relative-offset:
+      x: rand(%arg:1:0%,%arg:2:4%)
+      y: rand(%arg:1:0%,%arg:2:4%)
+      z: rand(%arg:3:-3%,%arg:4:3%)
+    projectile-velocity: 25
+    tick-interval: 1
+    special-effect-interval: 1
+    max-duration: 4
+    max-distance: 16
+    hit-radius: 2
+    vertical-hit-radius: 1
+    ground-hit-radius: 0.2
+    hit-air-during: false
+    hit-ground: true
+    hit-players: false
+    hit-non-players: false
+    hit-air-at-end: false
+    spell: TDummy
+    effects:
+      - position: projectile
+        effect: entity
+        pitch: ~90
+        drag-entity: true
+        entity:
+          entity: text_display
+          duration: 1000
+          interpolation-DELAY: 2
+          background: 48ffffff
+          interpolation-duration: 50
+          teleport-duration: 2
+          billboard: fixed
+          brightness:
+            sky: 8
+            block: 8
+          text: " "
+          transformation:
+            left-rotation: "1,0,0,0.021"
+            right-rotation: "0,0,0,1"
+            scale: "1,0,0"
+            translation: "0,0,0"
+          delayed-entity-data:
+            - delay: 2
+              entity-data:
+                interpolation-delay: 0
+                interpolation-duration: 30
+                teleport-duration: 2
+                transformation:
+                  left-rotation: "1,0,0,0.021"
+                  right-rotation: "0,0,0,1"
+                  scale: "1.5,7,0"
+                  translation: "0,0,0"
+      - position: projectile
+        effect: entity
+        pitch: ~90
+        drag-entity: true
+        entity:
+          entity: text_display
+          duration: 1000
+          interpolation-DELAY: 2
+          background: 48ffffff
+          interpolation-duration: 50
+          teleport-duration: 2
+          billboard: fixed
+          brightness:
+            sky: 8
+            block: 8
+          text: " "
+          transformation:
+            left-rotation: "0,0,0,1"
+            right-rotation: "0,0,0,1"
+            scale: "0.5,0.5,0"
+            translation: "0,0,0"
+          delayed-entity-data:
+            - delay: 2
+              entity-data:
+                interpolation-delay: 0
+                interpolation-duration: 30
+                teleport-duration: 2
+                transformation:
+                  left-rotation: "0,0,0,1"
+                  right-rotation: "0,0,0,1"
+                  scale: "1.5,7,0"
+                  translation: "0,0,0"`,
+        notes: "A dynamic wind effect using text displays as particles.\nThe displays are transparent and one display is flipped due to text displays not rendering when looked at from behind. The particle projectile allows for wall collisions as well adding realism to the effect.
       },
       {
         name: "Nature Shield",
