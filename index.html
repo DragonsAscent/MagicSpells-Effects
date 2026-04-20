@@ -232,19 +232,58 @@
       {
         name: "Arcane Burst",
         image: "assets/arcane-burst.svg",
-        yaml: `arcane_burst:\n  spell-class: ".instant.DummySpell"\n  name: "Arcane Burst"\n  effects:\n    particles:\n      position: caster\n      effect: flame\n      amount: 40\n      radius: 1.7\n    sound:\n      name: entity.firework_rocket.blast\n      volume: 1\n      pitch: 1.1`,
+        yaml: `arcane_burst:
+  spell-class: ".instant.DummySpell"
+  name: "Arcane Burst"
+  effects:
+    particles:
+      position: caster
+      effect: flame
+      amount: 40
+      radius: 1.7
+    sound:
+      name: entity.firework_rocket.blast
+      volume: 1
+      pitch: 1.1`,
         notes: "A quick radial burst for mage-style attacks.\nUse this as a visual trigger for combo systems or wand impacts."
       },
       {
         name: "Nature Shield",
         image: "assets/nature-shield.svg",
-        yaml: `nature_shield:\n  spell-class: ".buff.BuffSpell"\n  name: "Nature Shield"\n  duration: 8\n  effects:\n    particles:\n      position: caster\n      effect: happy_villager\n      amount: 18\n      radius: 1.1\n      y-offset: 0.8\n    sound:\n      name: block.azalea_leaves.hit\n      volume: 0.7\n      pitch: 1.4`,
+        yaml: `nature_shield:
+  spell-class: ".buff.BuffSpell"
+  name: "Nature Shield"
+  duration: 8
+  effects:
+    particles:
+      position: caster
+      effect: happy_villager
+      amount: 18
+      radius: 1.1
+      y-offset: 0.8
+    sound:
+      name: block.azalea_leaves.hit
+      volume: 0.7
+      pitch: 1.4`,
         notes: "Wraps the player in a natural protective aura.\nGreat for healer classes and support-oriented kits."
       },
       {
         name: "Void Dash",
         image: "assets/void-dash.svg",
-        yaml: `void_dash:\n  spell-class: ".instant.LeapSpell"\n  name: "Void Dash"\n  jump-velocity: 2.5\n  effects:\n    particles:\n      position: caster\n      effect: dragon_breath\n      amount: 30\n      radius: 0.8\n    sound:\n      name: entity.enderman.teleport\n      volume: 1\n      pitch: 0.8`,
+        yaml: `void_dash:
+  spell-class: ".instant.LeapSpell"
+  name: "Void Dash"
+  jump-velocity: 2.5
+  effects:
+    particles:
+      position: caster
+      effect: dragon_breath
+      amount: 30
+      radius: 0.8
+    sound:
+      name: entity.enderman.teleport
+      volume: 1
+      pitch: 0.8`,
         notes: "High-speed movement effect with void particles.\nPair with cooldowns for mobility-based PvP loadouts."
       }
     ];
