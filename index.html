@@ -319,24 +319,147 @@
         notes: "A dynamic wind effect using text displays as particles.\nThe displays are transparent and one display is flipped due to text displays not rendering when looked at from behind. The particle projectile allows for wall collisions as well adding realism to the effect."
       },
       {
-        name: "Nature Shield",
-        image: "assets/nature-shield.svg",
-        yaml: `nature_shield:
-  spell-class: ".buff.BuffSpell"
-  name: "Nature Shield"
-  duration: 8
-  effects:
-    particles:
-      position: caster
-      effect: happy_villager
-      amount: 18
-      radius: 1.1
-      y-offset: 0.8
-    sound:
-      name: block.azalea_leaves.hit
-      volume: 0.7
-      pitch: 1.4`,
-        notes: "Wraps the player in a natural protective aura.\nGreat for healer classes and support-oriented kits."
+        name: "Iron Smash",
+        image: "assets/iron_smash.gif",
+        yaml: `# Version 1.2 // By DragonsAscent // https://discord.magicspells.dev/
+iron_smash: # Target an area for the spell to play at
+    spell-class: ".TargetedMultiSpell"
+    name: "Iron Smash" # Can be cast/bound with /c "Iron Smash"
+    spells:
+      - iron_anvil #Summon a swirling anvil that smashes after a delay
+      - iron_crack(targeting=location;delay=21) # Crack the ground after 1 second
+    str-cast-self: "<gray>You've casted the <red>Iron Smash</red> spell!"
+    str-cast-others: "<gray>A massive <red>anvil</red> swirls into existence!"
+    effects:
+      - position: target
+        effect: sound
+        sound: entity.breeze.charge
+        volume: 6
+        pitch: 0.3
+        offset: 0,5,0
+      - position: target
+        delay: 22
+        effect: sound
+        sound: block.trial_spawner.open_shutter
+        volume: 10
+        pitch: 0
+      - position: target
+        delay: 23
+        effect: sound
+        sound: entity.copper_golem_oxidized.death
+        volume: 10
+        pitch: 0
+iron_crack: # Add realistic cracking that spreads outwards
+    spell-class: ".targeted.NovaSpell"
+    type: air # Don't need a block, particles will be shown
+    radius: 6
+    expand-interval: 3
+    visible-range: 50
+    circle-shape: true
+    spell: crack_effect(targeting=location;chance=20)
+crack_effect:
+    spell-class: ".targeted.AreaEffectSpell"
+    horizontal-radius: 1
+    vertical-radius: 1
+    fail-if-no-targets: false
+    spell-source-in-center: true
+    require-entity-target: false
+    spells: [crack_pain]
+    effects:
+      - position: special
+        offset: 0,-1,0
+        effect: blockbreak
+        stage: "rand(3,9)"
+      - position: special
+        effect: sound
+        sound: entity.zombie.attack_wooden_door
+        volume: 2
+        pitch: "rand(0.75,1.25)" # Add some randomization
+      - position: special
+        effect: particles
+        particle-name: dust_plume
+        horiz-spread: 0.05
+        vert-spread: 0.1
+        speed: 0.2
+        force: true
+        count: 16
+crack_pain:
+    spell-class: ".targeted.DamageSpell"
+    damage: 5 # Deals a fair amount of damage vanilla wise
+    damage-type: FALLING_BLOCK # Copy damage that a real anvil would do
+    str-cast-target: "<gray>The shockwave seems to have hit you</gray>"
+iron_anvil: # This spell plays the effect of the anvil
+    spell-class: ".targeted.DummySpell" 
+    effects:
+      - position: target
+        effect: particles
+        particle-name: flash
+        delay: 120
+      - position: target
+        effect: sound
+        sound: block.anvil.break
+        delay: 120
+        volume: 1
+        pitch: 1
+      - position: target
+        effect: sound
+        delay: 120
+        sound: block.trial_spawner.spawn_item_begin
+        volume: 2
+        pitch: 1
+      - position: target
+        effect: entity
+        pitch: 0 # Fixes positioning issues when playing effect
+        entity:
+          entity: item_display
+          duration: 120 # Make sure the anvil disappears on time
+          scoreboard-tags: 
+            - "%a_spell_effect"
+          interpolation-delay: 2
+          interpolation-duration: 50
+          teleport-duration: 3 # Animation smoothness
+          item: anvil
+          brightness:
+            sky: 15
+            block: 0
+          transformation:
+            left-rotation: "0,0,0,1"
+            right-rotation: "0,0,0,1"
+            scale: "0.5,0.5,0.5" # Start very small
+            translation: "0,10,0"
+          delayed-entity-data:
+            - delay: 2
+              entity-data:
+                interpolation-delay: 0
+                interpolation-duration: 7
+                teleport-duration: 3
+                transformation:
+                  left-rotation: "0,0,0,1"
+                  right-rotation: "0,1,0,0"
+                  translation: "0,8,0"
+                  scale: "2.25,2.25,2.25" # Grow very fast
+            - delay: 9
+              entity-data:
+                interpolation-delay: 1
+                interpolation-duration: 6
+                teleport-duration: 3
+                transformation:
+                  left-rotation: "0,0,0,1"
+                  right-rotation: "0,0.182,0.002,-0.983"
+                  translation: "0,6,0"
+                  scale: "2.25,2.25,2.25"
+            - delay: 18
+              entity-data:
+                interpolation-delay: 0
+                gravity: true
+                interpolation-duration: 4
+                teleport-duration: 3
+                transformation:
+                  left-rotation: "0,0,0,1"
+                  right-rotation: "0,0.182,0.002,-0.983"
+                  translation: "0,1.75,0" # Down we go
+                  scale: "2.25,2.25,2.25"`,
+        notes: "Summon an anvil out of thin air which grows, spins, then slams down dealing damage to the ground"
       },
       {
         name: "Void Dash",
