@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MagicSpells Effects Library</title>
+  <style>
+    :root {
+      --bg: #1e1e1e;
+      --panel: #252526;
+      --panel-light: #2d2d30;
+      --text: #d4d4d4;
+      --muted: #9da1a6;
+      --accent: #22c55e;
+      --accent-strong: #16a34a;
+      --border: #3a3d41;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      background: #181818;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.4rem;
+      color: #fff;
+    }
+
+    .subtitle {
+      margin: 0.35rem 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: calc(100vh - 91px);
+    }
+
+    .sidebar {
+      border-right: 1px solid var(--border);
+      background: var(--panel);
+      padding: 1rem;
+    }
+
+    .sidebar h2 {
+      margin-top: 0;
+      font-size: 1rem;
+      color: #fff;
+    }
+
+    .config-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .config-button {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: var(--panel-light);
+      color: var(--text);
+      text-align: left;
+      padding: 0.7rem 0.8rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      font-size: 0.95rem;
+    }
+
+    .config-button:hover,
+    .config-button.active {
+      border-color: var(--accent);
+      background: #1f3327;
+    }
+
+    main {
+      padding: 1.2rem;
+    }
+
+    .config-card {
+      display: none;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--panel);
+      overflow: hidden;
+    }
+
+    .config-card.active {
+      display: block;
+    }
+
+    .config-header {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border);
+      background: #1a1a1a;
+    }
+
+    .config-header h3 {
+      margin: 0;
+      color: #fff;
+      font-size: 1.1rem;
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .panel {
+      background: var(--panel-light);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.8rem;
+    }
+
+    .panel h4 {
+      margin: 0 0 0.6rem;
+      color: #fff;
+      font-size: 0.95rem;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 230px;
+      resize: vertical;
+      border-radius: 8px;
+      border: 1px solid #4a4f55;
+      background: #111;
+      color: #dcdcaa;
+      padding: 0.75rem;
+      font-family: "Cascadia Code", Consolas, monospace;
+      font-size: 0.88rem;
+    }
+
+    .preview {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #4a4f55;
+      background: #111;
+      display: block;
+    }
+
+    .notes {
+      margin: 0;
+      color: var(--text);
+      line-height: 1.45;
+      font-size: 0.93rem;
+      white-space: pre-line;
+    }
+
+    .pager {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.7rem;
+      padding: 0 1rem 1rem;
+    }
+
+    .pager button {
+      border: 1px solid var(--accent);
+      background: #1f3327;
+      color: #d8ffe4;
+      border-radius: 8px;
+      padding: 0.6rem 0.9rem;
+      cursor: pointer;
+    }
+
+    .pager button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .discord {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      border: 0;
+      border-radius: 999px;
+      padding: 0.75rem 1rem;
+      text-decoration: none;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      font-weight: 700;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      text-transform: lowercase;
+    }
+
+    @media (max-width: 860px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { border-right: 0; border-bottom: 1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>MagicSpells Effect Configurations</h1>
+    <p class="subtitle">Browse multiple ready-to-use MagicSpells setups.</p>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <h2>Available Configurations</h2>
+      <ul class="config-list" id="configList"></ul>
+    </aside>
+
+    <main>
+      <section id="cards"></section>
+    </main>
+  </div>
+
+  <a class="discord" href="https://discord.magicspells.dev" target="_blank" rel="noopener noreferrer">join the discord</a>
+
+  <script>
+    const configurations = [
+      {
+        name: "Arcane Burst",
+        image: "assets/arcane-burst.svg",
+        yaml: `arcane_burst:\n  spell-class: ".instant.DummySpell"\n  name: "Arcane Burst"\n  effects:\n    particles:\n      position: caster\n      effect: flame\n      amount: 40\n      radius: 1.7\n    sound:\n      name: entity.firework_rocket.blast\n      volume: 1\n      pitch: 1.1`,
+        notes: "A quick radial burst for mage-style attacks.\nUse this as a visual trigger for combo systems or wand impacts."
+      },
+      {
+        name: "Nature Shield",
+        image: "assets/nature-shield.svg",
+        yaml: `nature_shield:\n  spell-class: ".buff.BuffSpell"\n  name: "Nature Shield"\n  duration: 8\n  effects:\n    particles:\n      position: caster\n      effect: happy_villager\n      amount: 18\n      radius: 1.1\n      y-offset: 0.8\n    sound:\n      name: block.azalea_leaves.hit\n      volume: 0.7\n      pitch: 1.4`,
+        notes: "Wraps the player in a natural protective aura.\nGreat for healer classes and support-oriented kits."
+      },
+      {
+        name: "Void Dash",
+        image: "assets/void-dash.svg",
+        yaml: `void_dash:\n  spell-class: ".instant.LeapSpell"\n  name: "Void Dash"\n  jump-velocity: 2.5\n  effects:\n    particles:\n      position: caster\n      effect: dragon_breath\n      amount: 30\n      radius: 0.8\n    sound:\n      name: entity.enderman.teleport\n      volume: 1\n      pitch: 0.8`,
+        notes: "High-speed movement effect with void particles.\nPair with cooldowns for mobility-based PvP loadouts."
+      }
+    ];
+
+    const list = document.getElementById("configList");
+    const cards = document.getElementById("cards");
+    let activeIndex = 0;
+
+    function render() {
+      list.innerHTML = "";
+      cards.innerHTML = "";
+
+      configurations.forEach((config, index) => {
+        const li = document.createElement("li");
+        const button = document.createElement("button");
+        button.className = "config-button" + (index === activeIndex ? " active" : "");
+        button.textContent = config.name;
+        button.addEventListener("click", () => {
+          activeIndex = index;
+          render();
+        });
+        li.appendChild(button);
+        list.appendChild(li);
+
+        const article = document.createElement("article");
+        article.className = "config-card" + (index === activeIndex ? " active" : "");
+        article.innerHTML = `
+          <div class="config-header"><h3>${config.name}</h3></div>
+          <div class="content">
+            <div class="panel">
+              <h4>YAML Configuration</h4>
+              <textarea readonly>${config.yaml}</textarea>
+            </div>
+            <div class="panel">
+              <h4>Visual Preview</h4>
+              <img class="preview" src="${config.image}" alt="${config.name} effect preview" />
+            </div>
+            <div class="panel">
+              <h4>How It Works / Notes</h4>
+              <p class="notes">${config.notes}</p>
+            </div>
+          </div>
+          <div class="pager">
+            <button ${index === 0 ? "disabled" : ""} data-direction="prev">Previous</button>
+            <button ${index === configurations.length - 1 ? "disabled" : ""} data-direction="next">Next</button>
+          </div>
+        `;
+
+        article.querySelectorAll(".pager button").forEach(btn => {
+          btn.addEventListener("click", () => {
+            if (btn.dataset.direction === "prev" && activeIndex > 0) activeIndex--;
+            if (btn.dataset.direction === "next" && activeIndex < configurations.length - 1) activeIndex++;
+            render();
+          });
+        });
+
+        cards.appendChild(article);
+      });
+    }
+
+    render();
+  </script>
+</body>
+</html>
