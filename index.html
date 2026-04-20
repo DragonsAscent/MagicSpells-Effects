@@ -460,7 +460,100 @@ iron_anvil: # This spell plays the effect of the anvil
                   translation: "0,1.75,0" # Down we go
                   scale: "2.25,2.25,2.25"`,
         notes: "Summon an anvil out of thin air which grows, spins, then slams down dealing damage to the ground"
-      }
+      },
+      {
+        name: "Wind Siphon",
+        image: "assets/wind_siphon.gif",
+        yaml: `wind_siphon:
+    spell-class: ".targeted.OrbitSpell"
+    target-self: false
+    hit-radius: 1
+    start-angle-offset: rand(0,360)
+    start-pitch-offset: rand(-30,30)
+    vertical-hit-radius: 1
+    seconds-per-revolution: 5
+    follow-pitch: false
+    horiz-expand-delay: 1
+    follow-yaw: false
+    orbit-radius: 12
+    tick-interval: 1
+    max-duration: 1
+    y-offset: 0.75
+    stop-on-hit-entity: true
+    stop-on-hit-ground: false
+    horiz-expand-radius: -0.5
+    can-hit:
+        - players
+        - nonplayers
+    spell: tdummy
+    effects:
+      - position: special
+        effect: entity
+        effect-interval: 1
+        pitch: ~90
+        entity:
+          entity: text_display
+          duration: 40
+          interpolation-DELAY: 2
+          background: ffffffff
+          interpolation-duration: 50
+          teleport-duration: 2
+          billboard: fixed
+          brightness:
+            sky: 15
+            block: 0
+          text: " "
+          transformation:
+            left-rotation: "1,0,0,0.021"
+            right-rotation: "0,0,0,1"
+            scale: "6,3,6"
+            translation: "0,0,0"
+          delayed-entity-data:
+            - delay: 2
+              entity-data:
+                interpolation-delay: 0
+                interpolation-duration: 40
+                teleport-duration: 2
+                background: 00ffffff
+                transformation:
+                  left-rotation: "1,0,0,0.021"
+                  right-rotation: "0,0,0,1"
+                  scale: "2,1,2"
+                  translation: "0,0,0"
+      - position: special
+        effect: entity
+        effect-interval: 1
+        pitch: ~90
+        entity:
+          entity: text_display
+          duration: 40
+          interpolation-DELAY: 2
+          background: ffffffff
+          interpolation-duration: 50
+          teleport-duration: 2
+          billboard: fixed
+          brightness:
+            sky: 10
+            block: 0
+          text: " "
+          transformation:
+            left-rotation: "0,0,0,1"
+            right-rotation: "0,0,0,1"
+            scale: "6,3,6"
+            translation: "0,0,0"
+          delayed-entity-data:
+            - delay: 2
+              entity-data:
+                interpolation-delay: 0
+                interpolation-duration: 40
+                background: 00ffffff
+                teleport-duration: 2
+                transformation:
+                  left-rotation: "0,0,0,1"
+                  right-rotation: "0,0,0,1"
+                  scale: "2,1,2"
+                  translation: "0,0,0"`,
+                notes: "An effect that creates a vacuum which pulls long gusts of wind inwards towards the center. The effect uses two layers of text displays to create a more dynamic visual as well as using the orbit spell class to allow for more natural movement and wall collisions if desired."}
     ];
 
     const list = document.getElementById("configList");
