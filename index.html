@@ -553,7 +553,73 @@ iron_anvil:
                   right-rotation: "0,0,0,1"
                   scale: "2,1,2"
                   translation: "0,0,0"`,
-                notes: "An effect that creates a vacuum which pulls long gusts of wind inwards towards the center. The effect uses two layers of text displays to create a more dynamic visual as well as using the orbit spell class to allow for more natural movement and wall collisions if desired."}
+                notes: "An effect that creates a vacuum which pulls long gusts of wind inwards towards the center. The effect uses two layers of text displays to create a more dynamic visual as well as using the orbit spell class to allow for more natural movement and wall collisions if desired."
+      },
+      {
+        name: "Spacial Collapse",
+        image: "assets/spacial_collapse.gif",
+        yaml: `spacial_collapse:
+    spell-class: ".targeted.DummySpell"
+    effects:
+      - position: target
+        effect: entity
+        y-offset: 1
+        entity:
+          entity: item_display
+          duration: 100
+          item: black_concrete
+          interpolation-DELAY: 2
+          interpolation-duration: 50
+          teleport-duration: 2
+          billboard: center
+          text: " "
+          transformation:
+            left-rotation: "1,0,0,0.021"
+            right-rotation: "0,0,0,1"
+            scale: "-5,-5,-5"
+            translation: "0,0,0"
+          delayed-entity-data:
+            - delay: 2
+              entity-data:
+                interpolation-delay: 0
+                interpolation-duration: 30
+                teleport-duration: 2
+                transformation:
+                  left-rotation: "1,0,0,0.021"
+                  right-rotation: "0,0,0,1"
+                  scale: "0,0,0"
+                  translation: "0,0,0"
+      - position: target
+        delay: 15
+        effect: entity
+        y-offset: 1
+        entity:
+          entity: item_display
+          duration: 100
+          item: white_concrete
+          interpolation-DELAY: 2
+          interpolation-duration: 50
+          teleport-duration: 2
+          billboard: center
+          text: " "
+          transformation:
+            left-rotation: "1,0,0,0.021"
+            right-rotation: "0,0,0,1"
+            scale: "-5,-5,-5"
+            translation: "0,0,0"
+          delayed-entity-data:
+            - delay: 2
+              entity-data:
+                interpolation-delay: 0
+                interpolation-duration: 30
+                teleport-duration: 2
+                transformation:
+                  left-rotation: "1,0,0,0.021"
+                  right-rotation: "0,0,0,1"
+                  scale: "0,0,0"
+                  translation: "0,0,0"`,
+        notes: "A collapsing effect that uses two layers of item displays to create a more dynamic. Inverted scale causes the displays to be inside out and not overlap one another."
+      }
     ];
 
     const list = document.getElementById("configList");
